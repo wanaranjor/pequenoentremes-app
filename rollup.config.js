@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import url from '@rollup/plugin-url';
+import conf from 'config';
 import path from 'path';
 import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
@@ -16,9 +17,13 @@ const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 const onwarn = (warning, onwarn) =>
 	(warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
 	(warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) ||
-	// https://github.com/sveltejs/sapper-template/issues/298
 	(warning.plugin === 'css' && warning.message === 'No directory provided. Skipping CSS generation') ||
 	onwarn(warning);
+
+const appConfig = Object.keys(conf).reduce((acc, n) => {
+	acc[`process.env.${n}`] = JSON.stringify(conf[n])
+	return acc
+}, {})
 
 export default {
 	client: {
@@ -26,11 +31,10 @@ export default {
 		output: config.client.output(),
 		plugins: [
 			replace({
-				preventAssignment: true,
-				values: {
-					'process.browser': true,
-					'process.env.NODE_ENV': JSON.stringify(mode)
-				},
+				'process.browser': true,
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				'preventAssignment': true,
+				...appConfig
 			}),
 			svelte({
 				compilerOptions: {
@@ -79,11 +83,10 @@ export default {
 		output: config.server.output(),
 		plugins: [
 			replace({
-				preventAssignment: true,
-				values: {
-					'process.browser': false,
-					'process.env.NODE_ENV': JSON.stringify(mode)
-				},
+				'process.browser': false,
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				'preventAssignment': true,
+				...appConfig
 			}),
 			svelte({
 				compilerOptions: {
@@ -104,6 +107,7 @@ export default {
 			commonjs()
 		],
 		external: Object.keys(pkg.dependencies).concat(require('module').builtinModules),
+
 		preserveEntrySignatures: 'strict',
 		onwarn,
 	},
@@ -114,15 +118,15 @@ export default {
 		plugins: [
 			resolve(),
 			replace({
-				preventAssignment: true,
-				values: {
-					'process.browser': true,
-					'process.env.NODE_ENV': JSON.stringify(mode)
-				},
+				'process.browser': true,
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				'preventAssignment': true,
+				...appConfig
 			}),
 			commonjs(),
 			!dev && terser()
 		],
+
 		preserveEntrySignatures: false,
 		onwarn,
 	}
