@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer base {
+  @font-face {
+    font-family: cookie;
+    font-weight: 400;
+    src: url(/fonts/Cookie-Regular.ttf) format("woff");
+  }
+   @font-face {
+    font-family: plexsans-regular;
+    font-weight: 400;
+    src: url(/fonts/IBMPlexSans-Regular.ttf) format("woff");
+  }
+}
+
+
 @layer components {
   .input-form {
     @apply w-full p-2 mt-2 text-sm text-gray-700 bg-gray-100 border border-gray-300 focus:bg-white focus:ring-2;
@@ -21,4 +36,16 @@
   .icon-link{
     @apply relative inline-flex items-center justify-center flex-shrink-0 w-7 h-7 text-white rounded-full
   }
+}
+
+.text-yellow-950 {
+  color: #f3d430;
+}
+
+.bg-yellow-950 {
+  background-color: #f3d430;
+}
+
+.border-yellow-950 {
+  border-color: #f3d430;
 }

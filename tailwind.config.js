@@ -21,6 +21,10 @@ module.exports = {
         "6xl": "72rem",
       },
     },
+    fontFamily: {
+      'cookie': ['Cookie', 'sans-serif'],
+      'plexsans-regular': ['PlexSans-Regular', 'sans-serif'],
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
