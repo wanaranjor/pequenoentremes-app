@@ -16,7 +16,6 @@ export const getHeroes = async () => {
     // headers['Authorization'] = `Bearer ${token}`;
     const url = `${API_URL}/heroes`;
     const { data } = await axios.get(url, { headers });
-    console.log(data);
     return data;
   } catch (error) {
     console.error('getHeros:', error);

@@ -4,7 +4,7 @@
 </script>
 
 <nav
-  class="flex flex-col items-center justify-center flex-none px-3 text-black bg-gray-100"
+  class="flex flex-col items-center justify-center flex-none px-3 text-black bg-gray-50"
 >
   <a
     href="https://www.instagram.com/nohorita_k"
