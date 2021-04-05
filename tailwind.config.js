@@ -45,6 +45,7 @@ module.exports = {
     extend: {
       borderWidth: ['focus'],
       borderColor: ['active'],
+      ringWidth: ['hover', 'active'],
       borderOpacity: ['active'],
       translate: ['motion-reduce'],
     },
